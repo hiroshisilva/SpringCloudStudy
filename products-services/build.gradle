@@ -3,10 +3,14 @@ buildscript {
 		springBootVersion = '2.0.0.RELEASE'
 	}
 	repositories {
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
 		mavenCentral()
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath('gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.13.0')
 	}
 }
 
@@ -14,10 +18,17 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.palantir.docker'
 
 group = 'spring.cloud.study'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+
+docker {
+	name "products-services"
+	files jar.archivePath
+	buildArgs(['JAR_FILE': "${jar.archiveName}"])
+}
 
 repositories {
 	mavenCentral()

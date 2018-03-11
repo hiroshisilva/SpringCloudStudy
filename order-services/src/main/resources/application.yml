@@ -1,0 +1,4 @@
+spring:
+  profiles: container
+server:
+  port: ${SERVER_PORT}
